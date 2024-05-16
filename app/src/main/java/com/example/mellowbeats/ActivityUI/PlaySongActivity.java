@@ -84,7 +84,6 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
     private GestureDetectorCompat gestureDetector;
     private GestureDetector.SimpleOnGestureListener gestureListener;
 
-
     public static String NowPlayingID = "";// This is the ID of the currently playing song
     boolean flagss = false;
     @Override

@@ -88,12 +88,9 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
-        binding.Settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
-                startActivity(intent);
-            }
+        binding.Settings.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
+            startActivity(intent);
         });
 
     }

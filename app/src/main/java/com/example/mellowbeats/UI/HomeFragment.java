@@ -42,8 +42,6 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
 
-
-
     public HomeFragment() {
     }
 
@@ -53,10 +51,10 @@ public class HomeFragment extends Fragment {
 
     public static AllSongAdapter songAdapter;
 
-     public static int sortOrder =0 ;
-    String[] sortingList = { MediaStore.Audio.Media.DATE_ADDED + " DESC",
+    public static int sortOrder = 0;
+    String[] sortingList = {MediaStore.Audio.Media.DATE_ADDED + " DESC",
             MediaStore.Audio.Media.TITLE,
-            MediaStore.Audio.Media.SIZE + " DESC" };
+            MediaStore.Audio.Media.SIZE + " DESC"};
 
     @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
 
@@ -72,20 +70,20 @@ public class HomeFragment extends Fragment {
         RequestPermision();
 
 
-
-        FavouriteFragment.favouriteSongs=  new ArrayList<Music>();
+        FavouriteFragment.favouriteSongs = new ArrayList<Music>();
         SharedPreferences editor = getActivity().getSharedPreferences("FAVOURITES", MODE_PRIVATE);
         String jsonString = editor.getString("FavouriteSongs", null);
-        Type typeToken = new TypeToken<ArrayList<Music>>(){}.getType();
+        Type typeToken = new TypeToken<ArrayList<Music>>() {
+        }.getType();
         if (jsonString != null) {
             ArrayList<Music> data = new GsonBuilder().create().fromJson(jsonString, typeToken);
             FavouriteFragment.favouriteSongs.addAll(data);
         }
-        PlayListFragment.musicPlaylist =new Music.MusicPlaylist();
+        PlayListFragment.musicPlaylist = new Music.MusicPlaylist();
         String jsonStringPlaylist = editor.getString("MusicPlaylist", null);
         if (jsonStringPlaylist != null) {
             Music.MusicPlaylist dataPlaylist = new GsonBuilder().create().fromJson(jsonStringPlaylist, Music.MusicPlaylist.class);
-            PlayListFragment.musicPlaylist= dataPlaylist;
+            PlayListFragment.musicPlaylist = dataPlaylist;
         }
         MainActivity.search = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -96,15 +94,15 @@ public class HomeFragment extends Fragment {
         binding.HomeRecycler.setItemViewCacheSize(13);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         binding.HomeRecycler.setLayoutManager(linearLayoutManager);
-        songAdapter = new AllSongAdapter(getActivity(), MusicListMV,false,false);
+        songAdapter = new AllSongAdapter(getActivity(), MusicListMV, false, false);
         binding.HomeRecycler.setAdapter(songAdapter);
 
         binding.AllSongs.setText("Play All : " + songAdapter.getItemCount());
 
         binding.AllSongs.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), PlaySongActivity.class);
-            intent.putExtra("index",0);
-            intent.putExtra("class","Shuffle");
+            intent.putExtra("index", 0);
+            intent.putExtra("class", "Shuffle");
             startActivity(intent);
         });
         songAdapter.notifyDataSetChanged();
@@ -117,7 +115,7 @@ public class HomeFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.R)
     private ArrayList<Music> getAllAudio() {
         ArrayList<Music> tempList = new ArrayList<>();
-                String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
+        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
         String[] projection = {
                 MediaStore.Audio.Media._ID,
@@ -166,7 +164,7 @@ public class HomeFragment extends Fragment {
         Dexter.withContext(getActivity()).withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new PermissionListener() {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-             updateAdapter();
+                updateAdapter();
 
             }
 
@@ -195,7 +193,7 @@ public class HomeFragment extends Fragment {
 
         SharedPreferences sortEditor = requireActivity().getSharedPreferences("SORTING", MODE_PRIVATE);
         int sortValue = sortEditor.getInt("sortOrder", 0);
-        if(sortOrder != sortValue) {
+        if (sortOrder != sortValue) {
             sortOrder = sortValue;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 MusicListMV = getAllAudio();

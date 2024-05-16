@@ -83,8 +83,8 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:noHistory="true"
-            android:theme="@style/Theme.MellowBeats"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.MellowBeats"
             tools:ignore="AppLinkUrlError,LockedOrientationActivity">
 
         </activity>
@@ -93,6 +93,7 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MellowBeats" />
+
         <service android:name=".CustomClass.MusicService" />
 
         <receiver

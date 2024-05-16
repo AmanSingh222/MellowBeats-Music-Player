@@ -17,6 +17,7 @@ import com.example.mellowbeats.UI.HomeFragment;
 import com.example.mellowbeats.User.ProfileActivity;
 import com.example.mellowbeats.databinding.ActivityMainBinding;
 import com.google.android.material.tabs.TabLayoutMediator;
+
 import java.util.ArrayList;
 
 
@@ -24,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
     public static ActivityMainBinding binding;
     public static ArrayList<Music> MusicListSearch;
     public static boolean search;
-
 
 
     @SuppressLint("ResourceAsColor")
@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
         setSupportActionBar(binding.toolbar);
 
 
-
-        binding.pager.setAdapter( new ViewPagerAdapter(this));
+        binding.pager.setAdapter(new ViewPagerAdapter(this));
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(binding.tablayout, binding.pager, (tab, position) -> {
             switch (position) {
                 case 0: {
@@ -46,10 +45,9 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
                 }
                 case 1: {
                     tab.setText("Favorite");
-
                     break;
                 }
-                case 2:{
+                case 2: {
                     tab.setText("Playlist");
                     break;
                 }
@@ -59,8 +57,6 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
             }
         });
         tabLayoutMediator.attach();
-
-
 
 
     }
@@ -96,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
                 }
             }
             search = true;
-HomeFragment.songAdapter.updateMusicList(MusicListSearch);
+            HomeFragment.songAdapter.updateMusicList(MusicListSearch);
         }
         return true;
 
