@@ -31,9 +31,11 @@ public class PlayListFragment extends Fragment {
     public PlayListFragment() {
 
     }
+
     FragmentPlayListBinding binding;
-    public static Music.MusicPlaylist musicPlaylist ;
+    public static Music.MusicPlaylist musicPlaylist;
     private PlaylistViewAdapter adapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,34 +51,34 @@ public class PlayListFragment extends Fragment {
         adapter = new PlaylistViewAdapter(getActivity(), musicPlaylist.ref);
         binding.playlistRV.setAdapter(adapter);
         binding.AllSongs.setText("All Playlist : " + adapter.getItemCount());
-
-         binding.addPlaylistBtn.setOnClickListener(v -> customAlertDialog());
+        binding.addPlaylistBtn.setOnClickListener(v -> customAlertDialog());
         return binding.getRoot();
 
     }
-        private void customAlertDialog() {
-            View customDialog = LayoutInflater.from(getActivity()).inflate(R.layout.add_playlist_dialog, binding.getRoot(), false);
-            AddPlaylistDialogBinding binder = AddPlaylistDialogBinding.bind(customDialog);
-            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
-            AlertDialog dialog = builder.setView(customDialog)
-                    .setTitle("Playlist Details")
-                    .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Editable playlistName = binder.playlistName.getText();
-                            Editable createdBy = binder.yourName.getText();
-                            if (playlistName != null && createdBy != null) {
-                                if (playlistName.toString().length() > 0 && createdBy.toString().length() > 0) {
-                                    addPlaylist(playlistName.toString(), createdBy.toString());
-                                }
+
+    private void customAlertDialog() {
+        View customDialog = LayoutInflater.from(getActivity()).inflate(R.layout.add_playlist_dialog, binding.getRoot(), false);
+        AddPlaylistDialogBinding binder = AddPlaylistDialogBinding.bind(customDialog);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+        AlertDialog dialog = builder.setView(customDialog)
+                .setTitle("Playlist Details")
+                .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Editable playlistName = binder.playlistName.getText();
+                        Editable createdBy = binder.yourName.getText();
+                        if (playlistName != null && createdBy != null) {
+                            if (playlistName.toString().length() > 0 && createdBy.toString().length() > 0) {
+                                addPlaylist(playlistName.toString(), createdBy.toString());
                             }
-                            dialogInterface.dismiss();
                         }
-                    }).create();
-            dialog.show();
+                        dialogInterface.dismiss();
+                    }
+                }).create();
+        dialog.show();
 
 
-        }
+    }
 
 
     private void addPlaylist(String name, String createdBy) {

@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.example.mellowbeats.databinding.ActivityFeedbackBinding;
 
 import java.util.Objects;
@@ -23,14 +22,15 @@ import javax.mail.internet.MimeMessage;
 
 public class FeedbackActivity extends AppCompatActivity {
 
-       ActivityFeedbackBinding binding;
+    ActivityFeedbackBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityFeedbackBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Feedback");
+//        Objects.requireNonNull(getSupportActionBar()).setTitle("Feedback");
 
 
         binding.sendFA.setOnClickListener(view -> {

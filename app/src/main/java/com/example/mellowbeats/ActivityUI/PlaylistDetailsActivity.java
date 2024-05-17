@@ -32,9 +32,9 @@ import java.util.Objects;
 
 
 public class PlaylistDetailsActivity extends AppCompatActivity {
-    ActivityPlaylistDetailsBinding binding; // Binding class for the activity layout
-    private AllSongAdapter adapter; // Adapter for the RecyclerView
-    public static int currentPlaylistPos = -1; // Variable to store the current playlist position
+    ActivityPlaylistDetailsBinding binding;
+    private AllSongAdapter adapter;
+    public static int currentPlaylistPos = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,37 +42,29 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
         binding = ActivityPlaylistDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Retrieve the current playlist position from the intent's extras
         currentPlaylistPos = Objects.requireNonNull(getIntent().getExtras()).getInt("index", -1);
 
         try {
-            // Check and remove duplicate songs from the playlist
             PlayListFragment.musicPlaylist.ref.get(currentPlaylistPos).playlist = checkPlaylist(PlayListFragment.musicPlaylist.ref.get(currentPlaylistPos).playlist);
         } catch (Exception ignored) {
         }
 
-        // Set up the RecyclerView
         binding.playlistDetailsRV.setItemViewCacheSize(10);
         binding.playlistDetailsRV.setHasFixedSize(true);
         binding.playlistDetailsRV.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AllSongAdapter(this, PlayListFragment.musicPlaylist.ref.get(currentPlaylistPos).playlist, true, false);
         binding.playlistDetailsRV.setAdapter(adapter);
 
-        // Shuffle button click listener
         binding.shuffleBtnPD.setOnClickListener(view -> {
-            // Start the PlaySongActivity in shuffle mode
             Intent intent = new Intent(this, PlaySongActivity.class);
             intent.putExtra("index", 0);
             intent.putExtra("class", "PlaylistDetailsShuffle");
             startActivity(intent);
         });
 
-        // Add button click listener
         binding.addBtnPD.setOnClickListener(view -> startActivity(new Intent(this, selectionActivity.class)));
 
-        // Remove all button click listener
         binding.removeAllPD.setOnClickListener(view -> {
-            // Show a confirmation dialog to remove all songs from the playlist
             MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
             builder.setTitle("Remove")
                     .setMessage("Do you want to remove all songs from the playlist?")
@@ -109,7 +101,7 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
                 // Load the image for the first song in the playlist
                 Glide.with(this)
                         .load(PlayListFragment.musicPlaylist.ref.get(currentPlaylistPos).playlist.get(0).getArtUri())
-                        .apply(new RequestOptions().placeholder(R.drawable.icon_music).centerCrop())
+                        .apply(new RequestOptions().placeholder(R.drawable.music).centerCrop())
                         .into(binding.playlistImgPD);
 
                 // Get the dominant color from the image and set the background and status bar colors
@@ -119,7 +111,7 @@ public class PlaylistDetailsActivity extends AppCompatActivity {
                 if (img != null) {
                     image = BitmapFactory.decodeByteArray(img, 0, img.length);
                 } else {
-                    image = BitmapFactory.decodeResource(getResources(), R.drawable.icon_music);
+                    image = BitmapFactory.decodeResource(getResources(), R.drawable.music);
                 }
 
                 int dominantColor = getDominantColor(image);

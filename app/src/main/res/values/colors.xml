@@ -9,7 +9,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="Green">#1FD126</color>
-    <color name="RED">#FF0000</color>
+    <color name="RED">#E43131</color>
     <color name="RED2">#E43131</color>
     <color name="lightBlack">#171717</color>
 </resources>

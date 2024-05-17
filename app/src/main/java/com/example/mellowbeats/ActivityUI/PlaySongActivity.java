@@ -7,7 +7,6 @@ import static com.example.mellowbeats.CustomClass.Music.SetPotionsOfSong;
 import static com.example.mellowbeats.CustomClass.Music.favouriteChecker;
 import static com.example.mellowbeats.CustomClass.Music.getImgArt;
 
-
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -61,38 +60,35 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-// This is the PlaySongActivity class which extends AppCompatActivity and implements
-// ServiceConnection and MediaPlayer.OnCompletionListener interfaces
-public class PlaySongActivity extends AppCompatActivity implements ServiceConnection  ,MediaPlayer.OnCompletionListener  {
-    // These are some class-level variables used throughout the activity
-    public static int songPosition = 0;   // This is the position of the current song in the musicListPA array
-    public static boolean isPlaying = false; // This indicates whether the music is currently playing or not
-    public static MusicService musicService; // This is an instance of the MusicService class
-    public static boolean isFavourite = false;   // This indicates whether the current song is marked as a favourite or not
-    public static int fIndex = -1; // This is the index of the current song in the favourite songs list
+
+public class PlaySongActivity extends AppCompatActivity implements ServiceConnection, MediaPlayer.OnCompletionListener {
+    public static ActivityPlaySongBinding binding;
+    public static int songPosition = 0;
+    public static boolean isPlaying = false;
+    public static MusicService musicService;
+    public static boolean isFavourite = false;
+    public static int fIndex = -1;
 
     public static boolean repeat = false;
-    // This indicates whether the repeat button is currently active or not
     boolean min15 = false;
     boolean min30 = false;
     boolean min60 = false;
 
-    public static ArrayList<Music> musicListPA;   // This is the list of all songs that can be played in the activity
+    public static ArrayList<Music> musicListPA;
     @SuppressLint("StaticFieldLeak")
 
-    public static ActivityPlaySongBinding binding;
     private GestureDetectorCompat gestureDetector;
     private GestureDetector.SimpleOnGestureListener gestureListener;
 
-    public static String NowPlayingID = "";// This is the ID of the currently playing song
+    public static String NowPlayingID = "";
     boolean flagss = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityPlaySongBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.songNameMV.setSelected(true);
-
 
 
         if (getIntent().getData() != null && "content".equals(getIntent().getData().getScheme())) {
@@ -126,7 +122,6 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
         }
 
 
-        // This sets an OnClickListener for the PlayPauseBtn
         binding.PlayPauseBtn.setOnClickListener(v -> {
             // This checks whether the music is currently playing or not, and calls the corresponding
             // function to either pause or play the music
@@ -183,10 +178,10 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
                 if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                     if (deltaX > 0) {
                         prevNextSong(false);
-                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_in_left);// Swipe right to play previous song
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_left);// Swipe right to play previous song
                     } else {
                         prevNextSong(true); // Swipe left to play next song
-                        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_in_right);
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
                     }
                     return true;
                 } else if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
@@ -248,7 +243,7 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
                 musicListPA = new ArrayList<>();
                 musicListPA.addAll((Collection<? extends Music>) HomeFragment.MusicListMV);
                 Collections.shuffle(musicListPA);
-                songPosition =0;
+                songPosition = 0;
 
             } else {
                 binding.shufflebtn.setImageResource(R.drawable.shuffle_icon);
@@ -342,7 +337,7 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
             musicListPA = new ArrayList<>();
             musicListPA.addAll(FavouriteFragment.favouriteSongs);
             setLayout();
-        }  else if ("Shuffle".equals(getIntent().getStringExtra("class"))) {
+        } else if ("Shuffle".equals(getIntent().getStringExtra("class"))) {
             StartNowIntent();
             musicListPA = new ArrayList<>();
             musicListPA.addAll(HomeFragment.MusicListMV);
@@ -358,7 +353,7 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
 
         } else if ("PlayNext".equals(getIntent().getStringExtra("class"))) {
             StartNowIntent();
-            musicListPA= new ArrayList<>();
+            musicListPA = new ArrayList<>();
             musicListPA.addAll((Collection<? extends Music>) PlayNextFragment.playNextList);
             setLayout();
         } else if ("PlaylistDetailsShuffle".equals(getIntent().getStringExtra("class"))) {
@@ -374,8 +369,7 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
     }
 
 
-
-    public  void createMediaPlayer() {
+    public void createMediaPlayer() {
         try {
             if (MusicService.mediaPlayer == null) {
                 MusicService.mediaPlayer = new MediaPlayer();
@@ -389,7 +383,7 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
             binding.seekBarPA.setProgress(0);
             binding.seekBarPA.setMax(MusicService.mediaPlayer.getDuration());
             binding.SeekBarEnd.setText(formatDuration(MusicService.mediaPlayer.getDuration()));
-            musicService.showNotification(R.drawable.baseline_pause_circle_24,1F);
+            musicService.showNotification(R.drawable.baseline_pause_circle_24, 1F);
             binding.PlayPauseBtn.setImageResource(R.drawable.baseline_pause_circle_24);
             MusicService.mediaPlayer.setOnCompletionListener(this);
             NowPlayingID = musicListPA.get(songPosition).getId();
@@ -451,14 +445,13 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
     }
 
 
-
     private void playMusic() {
         //fix
         isPlaying = true;
 
 
         musicService.mediaPlayer.start();
-        musicService.showNotification(R.drawable.baseline_pause_circle_24,1F);
+        musicService.showNotification(R.drawable.baseline_pause_circle_24, 1F);
         binding.PlayPauseBtn.setImageResource(R.drawable.baseline_pause_circle_24);
     }
 
@@ -466,11 +459,11 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
         //fix
         isPlaying = false;
         musicService.mediaPlayer.pause();
-        musicService.showNotification(R.drawable.baseline_play_circle_24,0F);
+        musicService.showNotification(R.drawable.baseline_play_circle_24, 0F);
         binding.PlayPauseBtn.setImageResource(R.drawable.baseline_play_circle_24);
     }
 
-   private void prevNextSong(boolean increment) {
+    private void prevNextSong(boolean increment) {
 
         if (increment) {
             SetPotionsOfSong(true);
@@ -478,8 +471,7 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
             createMediaPlayer();
 
 
-
-} else {
+        } else {
             SetPotionsOfSong(false);
             setLayout();
             createMediaPlayer();
@@ -525,7 +517,6 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
     }
 
 
-
     private void setFragmentBackground(int dominantColor) {
         GradientDrawable gradient = new GradientDrawable(
                 GradientDrawable.Orientation.BOTTOM_TOP,
@@ -563,6 +554,7 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
 
         return Color.rgb(red, green, blue);
     }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         gestureDetector.onTouchEvent(event);
@@ -604,7 +596,7 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
                     try {
                         Thread.sleep(30 * 60000);
                         if (min30) {
-                           finish();
+                            finish();
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -626,7 +618,7 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
                     try {
                         Thread.sleep(60 * 60000);
                         if (min60) {
-                           finish();
+                            finish();
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -636,6 +628,7 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
             });
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -643,6 +636,7 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
             exitApplication();
         }
     }
+
     private void exitApplication() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);

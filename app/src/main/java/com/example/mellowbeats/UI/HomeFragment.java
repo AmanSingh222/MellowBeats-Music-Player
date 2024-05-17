@@ -62,15 +62,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-
-
         RequestPermision();
-
-
-        FavouriteFragment.favouriteSongs = new ArrayList<Music>();
+        FavouriteFragment.favouriteSongs = new ArrayList<>();
         SharedPreferences editor = getActivity().getSharedPreferences("FAVOURITES", MODE_PRIVATE);
         String jsonString = editor.getString("FavouriteSongs", null);
         Type typeToken = new TypeToken<ArrayList<Music>>() {
