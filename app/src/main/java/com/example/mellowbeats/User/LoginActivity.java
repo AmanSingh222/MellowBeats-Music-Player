@@ -22,7 +22,6 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.Loginbtn.setOnClickListener(v -> {
             if(!binding.UserName.getText().toString().equals("") ){
-
                 SharedPreferences preferences = getSharedPreferences("UserLogin",MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("flag",true);
@@ -31,7 +30,6 @@ public class LoginActivity extends AppCompatActivity {
                 Intent NextScreen = new Intent(LoginActivity.this, MainActivity.class);
 //                    NextScreen.putExtra("UserName",binding.UserName.getText().toString());
                 startActivity(NextScreen);
-
             }
 
             else {

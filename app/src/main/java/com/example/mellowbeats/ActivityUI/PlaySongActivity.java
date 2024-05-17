@@ -68,7 +68,6 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
     public static MusicService musicService;
     public static boolean isFavourite = false;
     public static int fIndex = -1;
-
     public static boolean repeat = false;
     boolean min15 = false;
     boolean min30 = false;
@@ -628,6 +627,8 @@ public class PlaySongActivity extends AppCompatActivity implements ServiceConnec
             });
         }
     }
+
+
 
     @Override
     protected void onDestroy() {
